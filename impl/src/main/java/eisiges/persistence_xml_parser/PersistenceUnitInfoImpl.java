@@ -13,6 +13,7 @@ import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
 
 public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
+
 	String persistenceUnitName;
 	String persistenceProviderClassName;
 	PersistenceUnitTransactionType transactionType;
@@ -25,8 +26,9 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
 	@Override
 	public String getPersistenceUnitName() {
-		return null;
+		return persistenceUnitName;
 	}
+
 	public void setPersistenceUnitName(String persistenceUnitName) {
 		this.persistenceUnitName = persistenceUnitName;
 	}
@@ -35,6 +37,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public String getPersistenceProviderClassName() {
 		return persistenceProviderClassName;
 	}
+
 	public void setPersistenceProviderClassName(String persistenceProviderClassName) {
 		this.persistenceProviderClassName = persistenceProviderClassName;
 	}
@@ -43,6 +46,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public PersistenceUnitTransactionType getTransactionType() {
 		return transactionType;
 	}
+
 	public void setTransactionType(PersistenceUnitTransactionType transactionType) {
 		this.transactionType = transactionType;
 	}
@@ -51,6 +55,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public DataSource getJtaDataSource() {
 		return jtaDataSource;
 	}
+
 	public void setJtaDataSource(DataSource jtaDataSource) {
 		this.jtaDataSource = jtaDataSource;
 	}
@@ -59,6 +64,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public DataSource getNonJtaDataSource() {
 		return nonJtaDataSource;
 	}
+
 	public void setNonJtaDataSource(DataSource nonJtaDataSource) {
 		this.nonJtaDataSource = nonJtaDataSource;
 	}
@@ -67,6 +73,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public List<String> getMappingFileNames() {
 		return mappingFileNames;
 	}
+
 	public void setMappingFileNames(List<String> mappingFileNames) {
 		this.mappingFileNames = mappingFileNames;
 	}
@@ -90,6 +97,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public boolean excludeUnlistedClasses() {
 		return excludeUnlistedClasses;
 	}
+
 	public void excludeUnlistedClasses(boolean excludeUnlistedClasses) {
 		this.excludeUnlistedClasses = excludeUnlistedClasses;
 	}
@@ -108,6 +116,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public Properties getProperties() {
 		return properties;
 	}
+
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
@@ -116,6 +125,7 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public String getPersistenceXMLSchemaVersion() {
 		return persistenceXMLSchemaVersion;
 	}
+
 	public void setPersistenceXMLSchemaVersion(String persistenceXMLSchemaVersion) {
 		this.persistenceXMLSchemaVersion = persistenceXMLSchemaVersion;
 	}
