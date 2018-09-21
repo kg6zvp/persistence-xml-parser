@@ -3,6 +3,7 @@
 A Cleanroom persistence.xml file parser using only the standard library
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Build Status](https://travis-ci.com/kg6zvp/persistence-xml-parser.svg?branch=master)](https://travis-ci.com/kg6zvp/persistence-xml-parser)
 
 ## Examples
 
