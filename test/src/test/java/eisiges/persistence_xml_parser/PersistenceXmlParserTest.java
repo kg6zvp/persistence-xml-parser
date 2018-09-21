@@ -16,27 +16,29 @@ public class PersistenceXmlParserTest {
 
 	@Test
 	public void testNumberOfPersistenceUnits() {
-		assertEquals(1, parser.puList.size());
+		assertEquals(1, parser.getPersistenceUnits().size());
 	}
 
 	@Test
 	public void testJpaVersion() {
 		assertEquals("2.1", parser.getJpaVersion());
+		assertEquals("2.1", parser.getDefaultPersistenceUnit().getPersistenceXMLSchemaVersion());
 	}
 
 	@Test
 	public void testPUName() {
-		assertEquals("MyPU", parser.puList.get(0).getPersistenceUnitName());
+		assertEquals("MyPU", parser.getDefaultPersistenceUnit().getPersistenceUnitName());
 	}
 
 	@Test
 	public void testProviderClass() {
-		assertEquals("eisiges.jpa.FakeJPAProvider", parser.puList.get(0).getPersistenceProviderClassName());
+		assertEquals("eisiges.jpa.FakeJPAProvider", parser.getDefaultPersistenceUnit().getPersistenceProviderClassName());
 	}
 
 	@Test
 	public void testProperties() {
-		assertEquals("none", parser.puList.get(0).getProperties().getProperty("javax.persistence.schema-generation.database.action"));
-		assertEquals("threeve", parser.puList.get(0).getProperties().getProperty("fake.jpa.property"));
+		PersistenceUnitInfoImpl pu = parser.getDefaultPersistenceUnit();
+		assertEquals("none", pu.getProperties().getProperty("javax.persistence.schema-generation.database.action"));
+		assertEquals("threeve", pu.getProperties().getProperty("fake.jpa.property"));
 	}
 }

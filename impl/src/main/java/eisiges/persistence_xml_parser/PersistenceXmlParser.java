@@ -23,6 +23,14 @@ public class PersistenceXmlParser {
 
 	List<PersistenceUnitInfoImpl> puList = new LinkedList<>();
 
+	public PersistenceUnitInfoImpl getDefaultPersistenceUnit() {
+		return puList.get(0);
+	}
+
+	public List<PersistenceUnitInfoImpl> getPersistenceUnits() {
+		return puList;
+	}
+
 	public void parse() throws IOException, ParserConfigurationException, SAXException {
 		parse(Thread.currentThread().getContextClassLoader());
 	}
@@ -55,6 +63,7 @@ public class PersistenceXmlParser {
 
 	private void parsePersistenceUnit(Element element) {
 		PersistenceUnitInfoImpl info = new PersistenceUnitInfoImpl();
+		info.setPersistenceXMLSchemaVersion(getJpaVersion());
 		info.setPersistenceUnitName(element.getAttribute("name"));
 
 		NodeList providerTagList = element.getElementsByTagName("provider");
