@@ -15,6 +15,11 @@ public class PersistenceXmlParserTest {
 	}
 
 	@Test
+	public void testNumberOfPersistenceUnits() {
+		assertEquals(1, parser.puList.size());
+	}
+
+	@Test
 	public void testJpaVersion() {
 		assertEquals("2.1", parser.getJpaVersion());
 	}

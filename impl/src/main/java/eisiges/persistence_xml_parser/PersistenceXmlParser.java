@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,6 +56,23 @@ public class PersistenceXmlParser {
 	private void parsePersistenceUnit(Element element) {
 		PersistenceUnitInfoImpl info = new PersistenceUnitInfoImpl();
 		info.setPersistenceUnitName(element.getAttribute("name"));
+
+		NodeList providerTagList = element.getElementsByTagName("provider");
+		if (providerTagList.getLength() > 0) {
+			info.setPersistenceProviderClassName(providerTagList.item(0).getTextContent());
+		}
+
+		NodeList propertiesTagList = element.getElementsByTagName("properties");
+		if (propertiesTagList.getLength() > 0) {
+			NodeList nList = ((Element) propertiesTagList.item(0)).getElementsByTagName("property");
+			Properties properties = new Properties();
+			for (int i = 0; i < nList.getLength(); ++i) {
+				Element property = (Element) nList.item(i);
+				properties.setProperty(property.getAttribute("name"), property.getAttribute("value"));
+			}
+			info.setProperties(properties);
+		}
+
 		puList.add(info);
 	}
 }
