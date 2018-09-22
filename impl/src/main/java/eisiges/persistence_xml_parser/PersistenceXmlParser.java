@@ -6,6 +6,7 @@ import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import javax.persistence.spi.PersistenceUnitTransactionType;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,11 +24,14 @@ public class PersistenceXmlParser {
 	public static final String VERSION_ATTRIBUTE = "version";
 	public static final String PERSISTENCE_TAG = "persistence";
 	public static final String PERSISTENCE_UNIT_TAG = "persistence-unit";
-	public static final String NAME_ATTRIBUTE = "name";
-	public static final String VALUE_ATTRIBUTE = "value";
 	public static final String PROVIDER_TAG = "provider";
 	public static final String PROPERTIES_TAG = "properties";
 	public static final String PROPERTY_TAG = "property";
+	public static final String JTA_DATA_SOURCE_TAG = "jta-data-source";
+	public static final String CLASS_TAG = "class";
+	public static final String NAME_ATTRIBUTE = "name";
+	public static final String VALUE_ATTRIBUTE = "value";
+	public static final String TRANSACTION_TYPE_ATTR = "transaction-type";
 
 	String jpaVersion;
 
@@ -75,10 +79,23 @@ public class PersistenceXmlParser {
 		PersistenceUnitInfoImpl info = new PersistenceUnitInfoImpl();
 		info.setPersistenceXMLSchemaVersion(getJpaVersion());
 		info.setPersistenceUnitName(element.getAttribute(NAME_ATTRIBUTE));
+		if (element.hasAttribute(TRANSACTION_TYPE_ATTR)) {
+			info.setTransactionType(PersistenceUnitTransactionType.valueOf(element.getAttribute(TRANSACTION_TYPE_ATTR)));
+		}
+
+		NodeList jtaDataSourceTagList = element.getElementsByTagName(JTA_DATA_SOURCE_TAG);
+		if (jtaDataSourceTagList.getLength() > 0) {
+			info.setJtaDataSourceUrl(((Element) jtaDataSourceTagList.item(0)).getTextContent());
+		}
 
 		NodeList providerTagList = element.getElementsByTagName(PROVIDER_TAG);
 		if (providerTagList.getLength() > 0) {
 			info.setPersistenceProviderClassName(providerTagList.item(0).getTextContent());
+		}
+
+		NodeList managedClassList = element.getElementsByTagName(CLASS_TAG);
+		if (providerTagList.getLength() > 0) {
+			info.setManagedClassNames(getManagedClassNames(managedClassList));
 		}
 
 		NodeList propertiesTagList = element.getElementsByTagName(PROPERTIES_TAG);
@@ -93,5 +110,14 @@ public class PersistenceXmlParser {
 		}
 
 		puList.add(info);
+	}
+
+	private List<String> getManagedClassNames(NodeList managedClassList) {
+		List<String> managedClassNames = new LinkedList<>();
+		for (int i = 0; i < managedClassList.getLength(); ++i) {
+			Element cn = (Element) managedClassList.item(i);
+			managedClassNames.add(cn.getTextContent());
+		}
+		return managedClassNames;
 	}
 }

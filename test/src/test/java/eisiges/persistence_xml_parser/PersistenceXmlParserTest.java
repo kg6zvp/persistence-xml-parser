@@ -36,6 +36,18 @@ public class PersistenceXmlParserTest {
 	}
 
 	@Test
+	public void testManagedClasses() {
+		String fakeEntity = "eisiges.jpa_test.FakeEntity";
+		assertEquals(1, parser.getDefaultPersistenceUnit().getManagedClassNames().size());
+		assertEquals(fakeEntity, parser.getDefaultPersistenceUnit().getManagedClassNames().get(0));
+	}
+
+	@Test
+	public void testJtaDataSourceUrl() {
+		assertEquals("java:/url-here", parser.getDefaultPersistenceUnit().getJtaDataSourceUrl());
+	}
+
+	@Test
 	public void testProperties() {
 		PersistenceUnitInfoImpl pu = parser.getDefaultPersistenceUnit();
 		assertEquals("none", pu.getProperties().getProperty("javax.persistence.schema-generation.database.action"));

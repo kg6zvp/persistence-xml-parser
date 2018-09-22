@@ -18,8 +18,12 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	String persistenceProviderClassName;
 	PersistenceUnitTransactionType transactionType;
 	DataSource jtaDataSource;
+	String jtaDataSourceUrl;
 	DataSource nonJtaDataSource;
+	String nonJtaDataSourceUrl;
 	List<String> mappingFileNames;
+	URL persistenceUnitRootUrl;
+	List<String> managedClassNames;
 	boolean excludeUnlistedClasses;
 	Properties properties;
 	String persistenceXMLSchemaVersion;
@@ -44,6 +48,9 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
 	@Override
 	public PersistenceUnitTransactionType getTransactionType() {
+		if (transactionType == null) {
+			return PersistenceUnitTransactionType.RESOURCE_LOCAL;
+		}
 		return transactionType;
 	}
 
@@ -60,6 +67,14 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 		this.jtaDataSource = jtaDataSource;
 	}
 
+	public String getJtaDataSourceUrl() {
+		return jtaDataSourceUrl;
+	}
+
+	public void setJtaDataSourceUrl(String jtaDataSourceUrl) {
+		this.jtaDataSourceUrl = jtaDataSourceUrl;
+	}
+
 	@Override
 	public DataSource getNonJtaDataSource() {
 		return nonJtaDataSource;
@@ -67,6 +82,14 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
 	public void setNonJtaDataSource(DataSource nonJtaDataSource) {
 		this.nonJtaDataSource = nonJtaDataSource;
+	}
+
+	public String getNonJtaDataSourceUrl() {
+		return nonJtaDataSourceUrl;
+	}
+
+	public void setNonJtaDataSourceUrl(String nonJtaDataSourceUrl) {
+		this.nonJtaDataSourceUrl = nonJtaDataSourceUrl;
 	}
 
 	@Override
@@ -85,12 +108,20 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
 	@Override
 	public URL getPersistenceUnitRootUrl() {
-		return null;
+		return persistenceUnitRootUrl;
+	}
+
+	public void setPersistenceUnitRootUrl(URL persistenceUnitRootUrl) {
+		this.persistenceUnitRootUrl = persistenceUnitRootUrl;
 	}
 
 	@Override
 	public List<String> getManagedClassNames() {
-		return null;
+		return managedClassNames;
+	}
+
+	public void setManagedClassNames(List<String> managedClassNames) {
+		this.managedClassNames = managedClassNames;
 	}
 
 	@Override
@@ -104,12 +135,12 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
 	@Override
 	public SharedCacheMode getSharedCacheMode() {
-		return null;
+		return SharedCacheMode.UNSPECIFIED; // good default?
 	}
 
 	@Override
 	public ValidationMode getValidationMode() {
-		return null;
+		return ValidationMode.AUTO; // good default?
 	}
 
 	@Override

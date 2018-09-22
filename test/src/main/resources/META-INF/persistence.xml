@@ -2,8 +2,10 @@
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
-	<persistence-unit name="MyPU">
+	<persistence-unit name="MyPU" transaction-type="RESOURCE_LOCAL">
+		<jta-data-source>java:/url-here</jta-data-source>
 		<provider>eisiges.jpa.FakeJPAProvider</provider>
+		<class>eisiges.jpa_test.FakeEntity</class>
 		<properties>
 			<property name="javax.persistence.schema-generation.database.action" value="none" />
 			<property name="fake.jpa.property" value="threeve" />
