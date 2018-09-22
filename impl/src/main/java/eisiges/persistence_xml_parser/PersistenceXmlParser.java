@@ -19,6 +19,16 @@ import org.xml.sax.SAXException;
 
 public class PersistenceXmlParser {
 
+	public static final String DEFAULT_PERSISTENCE_XML_LOCATION = "META-INF/persistence.xml";
+	public static final String VERSION_ATTRIBUTE = "version";
+	public static final String PERSISTENCE_TAG = "persistence";
+	public static final String PERSISTENCE_UNIT_TAG = "persistence-unit";
+	public static final String NAME_ATTRIBUTE = "name";
+	public static final String VALUE_ATTRIBUTE = "value";
+	public static final String PROVIDER_TAG = "provider";
+	public static final String PROPERTIES_TAG = "properties";
+	public static final String PROPERTY_TAG = "property";
+
 	String jpaVersion;
 
 	List<PersistenceUnitInfoImpl> puList = new LinkedList<>();
@@ -36,7 +46,7 @@ public class PersistenceXmlParser {
 	}
 
 	public void parse(ClassLoader classLoader) throws IOException, ParserConfigurationException, SAXException {
-		parse(classLoader.getResource("META-INF/persistence.xml"));
+		parse(classLoader.getResource(DEFAULT_PERSISTENCE_XML_LOCATION));
 	}
 
 	public void parse(URL persistenceXmlFile) throws IOException, ParserConfigurationException, SAXException {
@@ -46,9 +56,9 @@ public class PersistenceXmlParser {
 		Document doc = db.parse(conn.getInputStream());
 
 		Element persistenceElement = doc.getDocumentElement();
-		jpaVersion = persistenceElement.getAttribute("version");
+		jpaVersion = persistenceElement.getAttribute(VERSION_ATTRIBUTE);
 
-		NodeList nList = persistenceElement.getElementsByTagName("persistence-unit");
+		NodeList nList = persistenceElement.getElementsByTagName(PERSISTENCE_UNIT_TAG);
 		for (int i = 0; i < nList.getLength(); ++i) {
 			Node n = nList.item(i);
 			if (n instanceof Element) {
@@ -64,20 +74,20 @@ public class PersistenceXmlParser {
 	private void parsePersistenceUnit(Element element) {
 		PersistenceUnitInfoImpl info = new PersistenceUnitInfoImpl();
 		info.setPersistenceXMLSchemaVersion(getJpaVersion());
-		info.setPersistenceUnitName(element.getAttribute("name"));
+		info.setPersistenceUnitName(element.getAttribute(NAME_ATTRIBUTE));
 
-		NodeList providerTagList = element.getElementsByTagName("provider");
+		NodeList providerTagList = element.getElementsByTagName(PROVIDER_TAG);
 		if (providerTagList.getLength() > 0) {
 			info.setPersistenceProviderClassName(providerTagList.item(0).getTextContent());
 		}
 
-		NodeList propertiesTagList = element.getElementsByTagName("properties");
+		NodeList propertiesTagList = element.getElementsByTagName(PROPERTIES_TAG);
 		if (propertiesTagList.getLength() > 0) {
-			NodeList nList = ((Element) propertiesTagList.item(0)).getElementsByTagName("property");
+			NodeList nList = ((Element) propertiesTagList.item(0)).getElementsByTagName(PROPERTY_TAG);
 			Properties properties = new Properties();
 			for (int i = 0; i < nList.getLength(); ++i) {
 				Element property = (Element) nList.item(i);
-				properties.setProperty(property.getAttribute("name"), property.getAttribute("value"));
+				properties.setProperty(property.getAttribute(NAME_ATTRIBUTE), property.getAttribute(VALUE_ATTRIBUTE));
 			}
 			info.setProperties(properties);
 		}
