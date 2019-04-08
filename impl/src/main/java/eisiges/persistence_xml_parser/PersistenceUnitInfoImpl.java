@@ -12,38 +12,46 @@ import javax.persistence.spi.PersistenceUnitInfo;
 import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
 
-public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
+public final class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
-	String persistenceUnitName;
-	String persistenceProviderClassName;
-	PersistenceUnitTransactionType transactionType;
-	DataSource jtaDataSource;
-	String jtaDataSourceUrl;
-	DataSource nonJtaDataSource;
-	String nonJtaDataSourceUrl;
-	List<String> mappingFileNames;
-	URL persistenceUnitRootUrl;
-	List<String> managedClassNames;
-	boolean excludeUnlistedClasses;
-	Properties properties;
-	String persistenceXMLSchemaVersion;
+	private final String persistenceUnitName;
+	private final String persistenceProviderClassName;
+	private final PersistenceUnitTransactionType transactionType;
+	private final DataSource jtaDataSource;
+	private final String jtaDataSourceUrl;
+	private final DataSource nonJtaDataSource;
+	private final String nonJtaDataSourceUrl;
+	private final List<String> mappingFileNames;
+	private final URL persistenceUnitRootUrl;
+	private final List<String> managedClassNames;
+	private final boolean excludeUnlistedClasses;
+	private final Properties properties;
+	private final String persistenceXMLSchemaVersion;
+
+	public PersistenceUnitInfoImpl(String persistenceUnitName, String persistenceProviderClassName, PersistenceUnitTransactionType transactionType, DataSource jtaDataSource, String jtaDataSourceUrl, DataSource nonJtaDataSource, String nonJtaDataSourceUrl, List<String> mappingFileNames, URL persistenceUnitRootUrl, List<String> managedClassNames, boolean excludeUnlistedClasses, Properties properties, String persistenceXMLSchemaVersion) {
+		this.persistenceUnitName = persistenceUnitName;
+		this.persistenceProviderClassName = persistenceProviderClassName;
+		this.transactionType = transactionType;
+		this.jtaDataSource = jtaDataSource;
+		this.jtaDataSourceUrl = jtaDataSourceUrl;
+		this.nonJtaDataSource = nonJtaDataSource;
+		this.nonJtaDataSourceUrl = nonJtaDataSourceUrl;
+		this.mappingFileNames = mappingFileNames;
+		this.persistenceUnitRootUrl = persistenceUnitRootUrl;
+		this.managedClassNames = managedClassNames;
+		this.excludeUnlistedClasses = excludeUnlistedClasses;
+		this.properties = properties;
+		this.persistenceXMLSchemaVersion = persistenceXMLSchemaVersion;
+	}
 
 	@Override
 	public String getPersistenceUnitName() {
 		return persistenceUnitName;
 	}
 
-	public void setPersistenceUnitName(String persistenceUnitName) {
-		this.persistenceUnitName = persistenceUnitName;
-	}
-
 	@Override
 	public String getPersistenceProviderClassName() {
 		return persistenceProviderClassName;
-	}
-
-	public void setPersistenceProviderClassName(String persistenceProviderClassName) {
-		this.persistenceProviderClassName = persistenceProviderClassName;
 	}
 
 	@Override
@@ -54,25 +62,13 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 		return transactionType;
 	}
 
-	public void setTransactionType(PersistenceUnitTransactionType transactionType) {
-		this.transactionType = transactionType;
-	}
-
 	@Override
 	public DataSource getJtaDataSource() {
 		return jtaDataSource;
 	}
 
-	public void setJtaDataSource(DataSource jtaDataSource) {
-		this.jtaDataSource = jtaDataSource;
-	}
-
 	public String getJtaDataSourceUrl() {
 		return jtaDataSourceUrl;
-	}
-
-	public void setJtaDataSourceUrl(String jtaDataSourceUrl) {
-		this.jtaDataSourceUrl = jtaDataSourceUrl;
 	}
 
 	@Override
@@ -80,25 +76,13 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 		return nonJtaDataSource;
 	}
 
-	public void setNonJtaDataSource(DataSource nonJtaDataSource) {
-		this.nonJtaDataSource = nonJtaDataSource;
-	}
-
 	public String getNonJtaDataSourceUrl() {
 		return nonJtaDataSourceUrl;
-	}
-
-	public void setNonJtaDataSourceUrl(String nonJtaDataSourceUrl) {
-		this.nonJtaDataSourceUrl = nonJtaDataSourceUrl;
 	}
 
 	@Override
 	public List<String> getMappingFileNames() {
 		return mappingFileNames;
-	}
-
-	public void setMappingFileNames(List<String> mappingFileNames) {
-		this.mappingFileNames = mappingFileNames;
 	}
 
 	@Override
@@ -111,26 +95,14 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 		return persistenceUnitRootUrl;
 	}
 
-	public void setPersistenceUnitRootUrl(URL persistenceUnitRootUrl) {
-		this.persistenceUnitRootUrl = persistenceUnitRootUrl;
-	}
-
 	@Override
 	public List<String> getManagedClassNames() {
 		return managedClassNames;
 	}
 
-	public void setManagedClassNames(List<String> managedClassNames) {
-		this.managedClassNames = managedClassNames;
-	}
-
 	@Override
 	public boolean excludeUnlistedClasses() {
 		return excludeUnlistedClasses;
-	}
-
-	public void excludeUnlistedClasses(boolean excludeUnlistedClasses) {
-		this.excludeUnlistedClasses = excludeUnlistedClasses;
 	}
 
 	@Override
@@ -148,17 +120,9 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 		return properties;
 	}
 
-	public void setProperties(Properties properties) {
-		this.properties = properties;
-	}
-
 	@Override
 	public String getPersistenceXMLSchemaVersion() {
 		return persistenceXMLSchemaVersion;
-	}
-
-	public void setPersistenceXMLSchemaVersion(String persistenceXMLSchemaVersion) {
-		this.persistenceXMLSchemaVersion = persistenceXMLSchemaVersion;
 	}
 
 	@Override
@@ -176,6 +140,6 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	}
 
 	public PersistenceUnitInfo getImmutable() {
-		return this; //not right
+		return this;
 	}
 }
