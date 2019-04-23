@@ -109,8 +109,7 @@ public class PersistenceXmlParser {
 			}
 			puf.properties(properties);
 		}
-		info = puf.build();
-		puList.add(info);
+		puList.add(puf.build());
 	}
 
 	private List<String> getManagedClassNames(NodeList managedClassList) {
