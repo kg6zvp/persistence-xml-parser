@@ -76,44 +76,40 @@ public class PersistenceXmlParser {
 	}
 
 	private void parsePersistenceUnit(Element element) {
-		String persistenceXMLSchemaVersion = getJpaVersion();
-		String persistenceUnitName = element.getAttribute(NAME_ATTRIBUTE);
-		String persistenceProviderClassName = null;
-		String jtaDataSourceUrl = null;
-		PersistenceUnitTransactionType transactionType = null;
-		List<String> managedClassNames = null;
-		Properties properties = null;
+		PersistenceUnitInfoImpl.PersistenceUnitInfoImplBuilder puf = PersistenceUnitInfoImpl.builder();
+		puf.persistenceXMLSchemaVersion(getJpaVersion());
+		puf.persistenceUnitName(element.getAttribute(NAME_ATTRIBUTE));
 
 		if (element.hasAttribute(TRANSACTION_TYPE_ATTR)) {
-			transactionType = PersistenceUnitTransactionType.valueOf(element.getAttribute(TRANSACTION_TYPE_ATTR));
+			puf.transactionType(PersistenceUnitTransactionType.valueOf(element.getAttribute(TRANSACTION_TYPE_ATTR)));
 		}
 
 		NodeList jtaDataSourceTagList = element.getElementsByTagName(JTA_DATA_SOURCE_TAG);
 		if (jtaDataSourceTagList.getLength() > 0) {
-			jtaDataSourceUrl = ((Element) jtaDataSourceTagList.item(0)).getTextContent();
+			puf.jtaDataSourceUrl(((Element) jtaDataSourceTagList.item(0)).getTextContent());
 		}
 
 		NodeList providerTagList = element.getElementsByTagName(PROVIDER_TAG);
 		if (providerTagList.getLength() > 0) {
-			persistenceProviderClassName = providerTagList.item(0).getTextContent();
+			puf.persistenceProviderClassName(providerTagList.item(0).getTextContent());
 		}
 
 		NodeList managedClassList = element.getElementsByTagName(CLASS_TAG);
 		if (providerTagList.getLength() > 0) {
-			managedClassNames = getManagedClassNames(managedClassList);
+			puf.managedClassNames(getManagedClassNames(managedClassList));
 		}
 
 		NodeList propertiesTagList = element.getElementsByTagName(PROPERTIES_TAG);
 		if (propertiesTagList.getLength() > 0) {
 			NodeList nList = ((Element) propertiesTagList.item(0)).getElementsByTagName(PROPERTY_TAG);
-			properties = new Properties();
+			Properties properties = new Properties();
 			for (int i = 0; i < nList.getLength(); ++i) {
 				Element property = (Element) nList.item(i);
 				properties.setProperty(property.getAttribute(NAME_ATTRIBUTE), property.getAttribute(VALUE_ATTRIBUTE));
 			}
+			puf.properties(properties);
 		}
-		PersistenceUnitInfoImpl info = new PersistenceUnitInfoImpl(persistenceUnitName, 
-			persistenceProviderClassName, transactionType, null, jtaDataSourceUrl, null, null, null, null, managedClassNames, false, properties, persistenceXMLSchemaVersion);
+		info = puf.build();
 		puList.add(info);
 	}
 

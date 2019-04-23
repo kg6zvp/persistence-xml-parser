@@ -11,7 +11,11 @@ import javax.persistence.spi.ClassTransformer;
 import javax.persistence.spi.PersistenceUnitInfo;
 import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
+@Builder
+@AllArgsConstructor
 public final class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
 	private final String persistenceUnitName;
@@ -27,22 +31,6 @@ public final class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	private final boolean excludeUnlistedClasses;
 	private final Properties properties;
 	private final String persistenceXMLSchemaVersion;
-
-	public PersistenceUnitInfoImpl(String persistenceUnitName, String persistenceProviderClassName, PersistenceUnitTransactionType transactionType, DataSource jtaDataSource, String jtaDataSourceUrl, DataSource nonJtaDataSource, String nonJtaDataSourceUrl, List<String> mappingFileNames, URL persistenceUnitRootUrl, List<String> managedClassNames, boolean excludeUnlistedClasses, Properties properties, String persistenceXMLSchemaVersion) {
-		this.persistenceUnitName = persistenceUnitName;
-		this.persistenceProviderClassName = persistenceProviderClassName;
-		this.transactionType = transactionType;
-		this.jtaDataSource = jtaDataSource;
-		this.jtaDataSourceUrl = jtaDataSourceUrl;
-		this.nonJtaDataSource = nonJtaDataSource;
-		this.nonJtaDataSourceUrl = nonJtaDataSourceUrl;
-		this.mappingFileNames = mappingFileNames;
-		this.persistenceUnitRootUrl = persistenceUnitRootUrl;
-		this.managedClassNames = managedClassNames;
-		this.excludeUnlistedClasses = excludeUnlistedClasses;
-		this.properties = properties;
-		this.persistenceXMLSchemaVersion = persistenceXMLSchemaVersion;
-	}
 
 	@Override
 	public String getPersistenceUnitName() {
