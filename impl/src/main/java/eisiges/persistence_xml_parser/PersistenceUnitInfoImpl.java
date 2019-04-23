@@ -126,8 +126,4 @@ public final class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 	public ClassLoader getNewTempClassLoader() {
 		return Thread.currentThread().getContextClassLoader();
 	}
-
-	public PersistenceUnitInfo getImmutable() {
-		return this;
-	}
 }
