@@ -76,26 +76,27 @@ public class PersistenceXmlParser {
 	}
 
 	private void parsePersistenceUnit(Element element) {
-		PersistenceUnitInfoImpl info = new PersistenceUnitInfoImpl();
-		info.setPersistenceXMLSchemaVersion(getJpaVersion());
-		info.setPersistenceUnitName(element.getAttribute(NAME_ATTRIBUTE));
+		PersistenceUnitInfoImpl.PersistenceUnitInfoImplBuilder puf = PersistenceUnitInfoImpl.builder();
+		puf.persistenceXMLSchemaVersion(getJpaVersion());
+		puf.persistenceUnitName(element.getAttribute(NAME_ATTRIBUTE));
+
 		if (element.hasAttribute(TRANSACTION_TYPE_ATTR)) {
-			info.setTransactionType(PersistenceUnitTransactionType.valueOf(element.getAttribute(TRANSACTION_TYPE_ATTR)));
+			puf.transactionType(PersistenceUnitTransactionType.valueOf(element.getAttribute(TRANSACTION_TYPE_ATTR)));
 		}
 
 		NodeList jtaDataSourceTagList = element.getElementsByTagName(JTA_DATA_SOURCE_TAG);
 		if (jtaDataSourceTagList.getLength() > 0) {
-			info.setJtaDataSourceUrl(((Element) jtaDataSourceTagList.item(0)).getTextContent());
+			puf.jtaDataSourceUrl(((Element) jtaDataSourceTagList.item(0)).getTextContent());
 		}
 
 		NodeList providerTagList = element.getElementsByTagName(PROVIDER_TAG);
 		if (providerTagList.getLength() > 0) {
-			info.setPersistenceProviderClassName(providerTagList.item(0).getTextContent());
+			puf.persistenceProviderClassName(providerTagList.item(0).getTextContent());
 		}
 
 		NodeList managedClassList = element.getElementsByTagName(CLASS_TAG);
 		if (providerTagList.getLength() > 0) {
-			info.setManagedClassNames(getManagedClassNames(managedClassList));
+			puf.managedClassNames(getManagedClassNames(managedClassList));
 		}
 
 		NodeList propertiesTagList = element.getElementsByTagName(PROPERTIES_TAG);
@@ -106,10 +107,9 @@ public class PersistenceXmlParser {
 				Element property = (Element) nList.item(i);
 				properties.setProperty(property.getAttribute(NAME_ATTRIBUTE), property.getAttribute(VALUE_ATTRIBUTE));
 			}
-			info.setProperties(properties);
+			puf.properties(properties);
 		}
-
-		puList.add(info);
+		puList.add(puf.build());
 	}
 
 	private List<String> getManagedClassNames(NodeList managedClassList) {
